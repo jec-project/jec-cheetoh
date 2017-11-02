@@ -1,0 +1,50 @@
+{
+  "name": "jec-cheetoh",
+  "version": "0.0.1",
+  "description": "JEC Cheetoh - The GlassCat Project Model (GPM) manager.",
+  "main": "dist/com/onsoft/glasscat/jec-cheetoh-index",
+  "types": "types/jec-cheetoh.d.ts",
+  "scripts": {
+    "test": "mocha juta/tiger/run-unit-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pechemann/jec-cheetoh.git"
+  },
+  "keywords": [
+    "JEC",
+    "GlassCat",
+    "Cheetoh",
+    "Node.js",
+    "node",
+    "JavaScript",
+    "TypeScript",
+    "GPM",
+    "manager"
+  ],
+  "author": "Pascal ECHEMANN",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/pechemann/jec-cheetoh/issues"
+  },
+  "homepage": "https://github.com/pechemann/jec-cheetoh#readme",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.13",
+    "jec-juta": "^1.1.6",
+    "jec-tiger": "^1.1.7",
+    "typedoc": "^0.8.0",
+    "mocha": "^3.3.0",
+    "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-ts": "^6.0.0-beta.16",
+    "grunt-typedoc": "^0.2.4",
+    "typescript": "^2.5.1"
+  }
+}
