@@ -7,7 +7,11 @@ class CheetohLoggerProxy extends jec_commons_1.AbstractLoggerProxy {
         if (CheetohLoggerProxy._locked || CheetohLoggerProxy.INSTANCE) {
             this.throwSingletonError("CheetohLoggerProxy");
         }
+        this.initObj();
         CheetohLoggerProxy._locked = true;
+    }
+    initObj() {
+        this.setLogger(new jec_commons_1.ConsoleLogger());
     }
     static getInstance() {
         if (CheetohLoggerProxy.INSTANCE === null) {

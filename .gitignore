@@ -61,3 +61,11 @@ test/**/*.js
 
 # Ignore JavaScript files in utils folder
 utils/**/*.js
+
+#####################################
+# DEV temp files
+#####################################
+
+temp-test.ts
+temp-test.js
+public/

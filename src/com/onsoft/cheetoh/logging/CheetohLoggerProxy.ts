@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Logger, LoggerProxy, AbstractLoggerProxy} from "jec-commons";
+import {Logger, LoggerProxy, AbstractLoggerProxy, ConsoleLogger} from "jec-commons";
 
 /**
  * A singleton that is used by Sandcat classes to send logs to a 
@@ -35,7 +35,19 @@ export class CheetohLoggerProxy extends AbstractLoggerProxy
     if(CheetohLoggerProxy._locked || CheetohLoggerProxy.INSTANCE) {
       this.throwSingletonError("CheetohLoggerProxy");
     }
+    this.initObj();
     CheetohLoggerProxy._locked = true;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Initializes this object.
+   */
+  private initObj():void {
+    this.setLogger(new ConsoleLogger());
   }
 
   //////////////////////////////////////////////////////////////////////////////

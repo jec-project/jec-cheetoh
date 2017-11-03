@@ -15,8 +15,10 @@
 //   limitations under the License.
 
 import {CheetohLoggerProxy} from "../logging/CheetohLoggerProxy";
-import {LogLevel} from "jec-commons";
+import {LogLevel, JsonLoader, JsonLoaderError} from "jec-commons";
 import {CheetohError} from "../exceptions/CheetohError";
+import {GpmConfig} from "../model/GpmConfig";
+import * as path from "path";
 
 /**
  * The <code>ManifestManager</code> class allows to work with GPM manifest
@@ -38,6 +40,11 @@ export class ManifestManager {
   //////////////////////////////////////////////////////////////////////////////
   // Private properties
   //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * The current GPM manifest file representation.
+   */
+  private _gpmConfig:GpmConfig = null;
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -67,4 +74,29 @@ export class ManifestManager {
   // Public methods
   //////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Loads the GPM manifest file at the specified GlassCat server path.
+   * 
+   * @param {string} glasscatPath the path where to find the manifest file to
+   *                              load.
+   * @param {Function} callback the callback method called when the manifest is
+   *                            loaded.
+   */
+  public loadManifest(glasscatPath:string,
+                                       callback:(err:CheetohError)=>void):void {
+    let loader:JsonLoader = new JsonLoader();
+    let error:CheetohError = null;
+    loader.load(
+      path.join(glasscatPath, "manifest.json"),
+      (data:any)=> {
+        console.log(data);
+        callback(null);
+      },
+      (err:JsonLoaderError)=> {
+        error = new CheetohError(err.message);
+        error.stack = err.stack;
+        callback(error);
+      }
+    )
+  }
 };

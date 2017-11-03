@@ -14,28 +14,29 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {CheetohError} from "./exceptions/CheetohError";
+import {GpmConfig} from "./GpmConfig";
 
 /**
- * The main Cheetoh execution entry point, which will execute a full Cheetoh
- * execution session.
+ * A data object that contains information for all GlassCat Project Models in
+ * the GPM manifest file.
  */
-export interface Cheetoh {
+export class ManifestConfig {
 
   //////////////////////////////////////////////////////////////////////////////
-  // Public methods
+  // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Downloads a GPM from the specified URL and installs it into the destination
-   * path. The destination path must be the location of the GlassCat application
-   * server where to deploy the GPM.
-   * 
-   * @param {string} uri the URL from which to download the GPM.
-   * @param {string} destinationPath the path into which to install the GPM.
-   * @param {Function} callback the callback method called when installation is
-   *                            complete.
+   * Creates a new <code>ManifestConfig</code> instance.
    */
-  installGpmFromUri(uri:string, destinationPath:string,
-                    callback:(err:CheetohError)=>void):void;
-};
+  constructor() {}
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Public properties
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * The list of GPM configurations for this manifest object.
+   */
+  public models:Array<GpmConfig> = null;
+}
