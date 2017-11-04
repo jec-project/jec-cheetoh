@@ -1,31 +1,100 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CheetohLoggerProxy_1 = require("../logging/CheetohLoggerProxy");
 const jec_commons_1 = require("jec-commons");
 const CheetohError_1 = require("../exceptions/CheetohError");
+const ManifestConfig_1 = require("../model/ManifestConfig");
 const path = require("path");
+const GpmParser_1 = require("../utils/GpmParser");
+const ManifestConfigUpdater_1 = require("../utils/ManifestConfigUpdater");
 class ManifestManager {
     constructor() {
-        this._gpmConfig = null;
-        this.initObj();
+        this._manifestConfig = null;
+        this._manifestPath = null;
+        this._glasscatPath = null;
     }
-    initObj() {
-        CheetohLoggerProxy_1.CheetohLoggerProxy.getInstance();
-    }
-    sendMessage(message, logLevel) {
-        CheetohLoggerProxy_1.CheetohLoggerProxy.getInstance().log(message, logLevel);
-    }
-    loadManifest(glasscatPath, callback) {
-        let loader = new jec_commons_1.JsonLoader();
+    validate(data, callback) {
         let error = null;
-        loader.load(path.join(glasscatPath, "manifest.json"), (data) => {
-            console.log(data);
+        if (data.models === undefined) {
+            error = new CheetohError_1.CheetohError("Invalid GPM config: missing property 'models'");
+        }
+        else if (data.models !== null && !Array.isArray(data.models)) {
+            error = new CheetohError_1.CheetohError("Invalid GPM config: 'models' must be an array");
+        }
+        callback(error);
+    }
+    parse(data, callback) {
+        this._manifestConfig = new ManifestConfig_1.ManifestConfig();
+        let gpmModels = new Array();
+        let parser = new GpmParser_1.GpmParser();
+        let models = data.models;
+        let len = models.length;
+        let gpm = null;
+        try {
+            while (len--) {
+                gpm = parser.parse(models[len]);
+                gpmModels.push(gpm);
+            }
+            this._manifestConfig.models = gpmModels;
             callback(null);
-        }, (err) => {
-            error = new CheetohError_1.CheetohError(err.message);
-            error.stack = err.stack;
+        }
+        catch (e) {
+            callback(e);
+        }
+    }
+    getGlassCatPath() {
+        return this._glasscatPath;
+    }
+    setGlassCatPath(glasscatPath) {
+        this._glasscatPath = glasscatPath;
+        if (glasscatPath) {
+            this._manifestPath = path.join(glasscatPath, "manifest.json");
+        }
+    }
+    loadManifest(callback) {
+        let error = null;
+        let loader = null;
+        if (!this._manifestPath) {
+            error = new CheetohError_1.CheetohError("Invalid GPM config: server path must be specified");
             callback(error);
-        });
+        }
+        else {
+            loader = new jec_commons_1.JsonLoader();
+            loader.load(this._manifestPath, (data) => {
+                this.validate(data, (err) => {
+                    if (err) {
+                        callback(err);
+                    }
+                    else {
+                        this.parse(data, (err) => {
+                            callback(err);
+                        });
+                    }
+                });
+            }, (err) => {
+                error = new CheetohError_1.CheetohError(err.message);
+                error.stack = err.stack;
+                callback(error);
+            });
+        }
+    }
+    updateManifest(callback) {
+        let error = null;
+        let updater = null;
+        if (!this._manifestPath) {
+            error = new CheetohError_1.CheetohError("Invalid GPM config: server path must be specified");
+            callback(error);
+        }
+        else {
+            updater = new ManifestConfigUpdater_1.ManifestConfigUpdater();
+            updater.update(this._manifestPath, this._manifestConfig, (err) => {
+                callback(err);
+            });
+        }
+    }
+    addGpm(gpmConfig) {
+    }
+    removeGpmByName(name) {
+        return true;
     }
 }
 exports.ManifestManager = ManifestManager;

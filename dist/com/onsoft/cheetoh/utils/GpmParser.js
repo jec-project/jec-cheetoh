@@ -19,7 +19,7 @@ class GpmParser {
         else if (!manifest.author)
             prop = "author";
         if (prop !== null) {
-            throw new CheetohError_1.CheetohError("Invalid GPM config, missing property: " + prop);
+            throw new CheetohError_1.CheetohError(`Invalid GPM config: missing property '${prop}'`);
         }
     }
     build(manifest) {

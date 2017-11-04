@@ -14,11 +14,13 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {CheetohLoggerProxy} from "../logging/CheetohLoggerProxy";
-import {LogLevel, JsonLoader, JsonLoaderError} from "jec-commons";
+import {JsonLoader, JsonLoaderError} from "jec-commons";
 import {CheetohError} from "../exceptions/CheetohError";
 import {GpmConfig} from "../model/GpmConfig";
+import {ManifestConfig} from "../model/ManifestConfig";
 import * as path from "path";
+import {GpmParser} from "../utils/GpmParser";
+import {ManifestConfigUpdater} from "../utils/ManifestConfigUpdater";
 
 /**
  * The <code>ManifestManager</code> class allows to work with GPM manifest
@@ -33,9 +35,7 @@ export class ManifestManager {
   /**
    * Creates a new <code>ManifestManager</code> instance.
    */
-  constructor() {
-    this.initObj();
-  }
+  constructor() {}
 
   //////////////////////////////////////////////////////////////////////////////
   // Private properties
@@ -44,30 +44,68 @@ export class ManifestManager {
   /**
    * The current GPM manifest file representation.
    */
-  private _gpmConfig:GpmConfig = null;
+  private _manifestConfig:ManifestConfig = null;
 
+  /**
+   * The path to the current GPM manifest file.
+   */
+  private _manifestPath:string = null;
+  
+  /**
+   * The path to the GlassCat server that holds the current GPM manifest file.
+   */
+  private _glasscatPath:string = null;
+  
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Initializes this object.
+   * Validates the specified <code>data</code> object. Throws a
+   * <code>CheetohError</code> exception whether the <code>models</code>
+   * property is missing, or <code>models</code> is not of type of
+   * <code>Array</code>.
+   * 
+   * @param {any} data the object to validate.
+   * @param {Function} callback the callback method called when the validation 
+   *                            is complete.
    */
-  private initObj():void {
-    CheetohLoggerProxy.getInstance();
+  private validate(data:any, callback:(err:CheetohError)=>void):void {
+    let error:CheetohError = null;
+    if(data.models === undefined) {
+      error = new CheetohError("Invalid GPM config: missing property 'models'");
+    } else if(data.models !== null && !Array.isArray(data.models)) {
+      error = new CheetohError("Invalid GPM config: 'models' must be an array");
+    }
+    callback(error);
   }
 
   /**
-   * The wrapper function used to send decorated messages to the output stream.
+   * Parses the specified <code>data</code> object and sets the
+   * <code>_manifestConfig</code> property with a new
+   * <code>ManifestConfig</code> instance.
    * 
-   * @param {string} message the message to decorate and to send to the output
-   *                         stream.
-   * @param {number} logLevel the log level of the message sent to the output
-   *                          stream. Valid values are the constants of the
-   *                          <code>LogLevel</code> class.
+   * @param {any} data the object to parse.
+   * @param {Function} callback the callback method called when the object 
+   *                            is parsed.
    */
-  private sendMessage(message:string, logLevel?:number):void {
-    CheetohLoggerProxy.getInstance().log(message, logLevel);
+  private parse(data:any, callback:(err:CheetohError)=>void):void {
+    this._manifestConfig = new ManifestConfig();
+    let gpmModels:Array<GpmConfig> = new Array<GpmConfig>();
+    let parser:GpmParser = new GpmParser();
+    let models:Array<any> = data.models;
+    let len:number = models.length;
+    let gpm:GpmConfig = null;
+    try {
+      while(len--) {
+        gpm = parser.parse(models[len]);
+        gpmModels.push(gpm);
+      }
+      this._manifestConfig.models = gpmModels;
+      callback(null);
+    } catch(e) {
+      callback((e as CheetohError));
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -75,28 +113,101 @@ export class ManifestManager {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Loads the GPM manifest file at the specified GlassCat server path.
+   * Returns the path to the GlassCat server that holds the current GPM manifest
+   * file.
    * 
-   * @param {string} glasscatPath the path where to find the manifest file to
-   *                              load.
+   * @return {string} the path to the server that holds the current GPM manifest
+   *                  file.
+   */
+  public getGlassCatPath():string {
+    return this._glasscatPath;
+  }
+
+  /**
+   * Sets the path to the GlassCat server that holds the current GPM manifest
+   * file.
+   * 
+   * @param {string} glasscatPath the path to the server that holds the current 
+   *                              GPM manifest file.
+   */
+  public setGlassCatPath(glasscatPath:string):void {
+    this._glasscatPath = glasscatPath;
+    if(glasscatPath) {
+      this._manifestPath = path.join(glasscatPath, "manifest.json");
+    }
+  }
+
+  /**
+   * Loads the current GPM manifest file at the specified GlassCat server path.
+   * 
    * @param {Function} callback the callback method called when the manifest is
    *                            loaded.
    */
-  public loadManifest(glasscatPath:string,
-                                       callback:(err:CheetohError)=>void):void {
-    let loader:JsonLoader = new JsonLoader();
+  public loadManifest(callback:(err:CheetohError)=>void):void {
     let error:CheetohError = null;
-    loader.load(
-      path.join(glasscatPath, "manifest.json"),
-      (data:any)=> {
-        console.log(data);
-        callback(null);
-      },
-      (err:JsonLoaderError)=> {
-        error = new CheetohError(err.message);
-        error.stack = err.stack;
-        callback(error);
-      }
-    )
+    let loader:JsonLoader = null;
+    if(!this._manifestPath) {
+      error = new CheetohError(
+        "Invalid GPM config: server path must be specified"
+      );
+      callback(error);
+    } else {
+      loader = new JsonLoader();
+      loader.load(
+        this._manifestPath,
+        (data:any)=> {
+          this.validate(data, (err:CheetohError)=>{
+            if(err) {
+              callback(err);
+            } else {
+              this.parse(data, (err:CheetohError)=>{
+                callback(err);
+              });
+            }
+          });
+        },
+        (err:JsonLoaderError)=> {
+          error = new CheetohError(err.message);
+          error.stack = err.stack;
+          callback(error);
+        }
+      );
+    }
+  }
+  
+  /**
+   * Updates the current GPM manifest file at the specified GlassCat server
+   * path.
+   * 
+   * @param {Function} callback the callback method called when the manifest is
+   *                            updated.
+   */
+  public updateManifest(callback:(err:CheetohError)=>void):void {
+    let error:CheetohError = null;
+    let updater:ManifestConfigUpdater = null;
+    if(!this._manifestPath) {
+      error = new CheetohError(
+        "Invalid GPM config: server path must be specified"
+      );
+      callback(error);
+    } else {
+      updater = new ManifestConfigUpdater();
+      updater.update(
+        this._manifestPath,
+        this._manifestConfig,
+        (err:CheetohError)=>{
+          callback(err);
+        }
+      )
+    }
+  }
+
+  public addGpm(gpmConfig:GpmConfig):void {
+
+  }
+  
+  public removeGpmByName(name:string):boolean {
+    
+    return true;
   }
 };

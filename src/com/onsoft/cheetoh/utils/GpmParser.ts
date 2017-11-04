@@ -51,7 +51,7 @@ export class GpmParser {
     else if(!manifest.description) prop = "description";
     else if(!manifest.author) prop = "author";
     if(prop !== null) {
-      throw new CheetohError("Invalid GPM config, missing property: " + prop);
+      throw new CheetohError(`Invalid GPM config: missing property '${prop}'`);
     }
   }
 

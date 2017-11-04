@@ -16,6 +16,7 @@
 export {CheetohBuilder} from "./cheetoh/builders/CheetohBuilder";
 //--> com/onsoft/cheetoh/core
 export {DefaultCheetohImpl} from "./cheetoh/core/DefaultCheetohImpl";
+export {GpmManager} from "./cheetoh/core/GpmManager";
 export {ManifestManager} from "./cheetoh/core/ManifestManager";
 //--> com/onsoft/cheetoh/exceptions
 export {CheetohError} from "./cheetoh/exceptions/CheetohError";
@@ -26,6 +27,7 @@ export {GpmConfig} from "./cheetoh/model/GpmConfig";
 export {ManifestConfig} from "./cheetoh/model/ManifestConfig";
 //--> com/onsoft/cheetoh/utils
 export {GpmParser} from "./cheetoh/utils/GpmParser";
+export {ManifestConfigUpdater} from "./cheetoh/utils/ManifestConfigUpdater";
 export {TarballUtil} from "./cheetoh/utils/TarballUtil";
 //--> com/onsoft/cheetoh
 export {Cheetoh} from "./cheetoh/Cheetoh";

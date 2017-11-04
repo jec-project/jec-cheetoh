@@ -19,6 +19,8 @@ import {ManifestManager} from "./ManifestManager";
 import {CheetohLoggerProxy} from "../logging/CheetohLoggerProxy";
 import {LogLevel} from "jec-commons";
 import {CheetohError} from "../exceptions/CheetohError";
+import {GpmManager} from "../core/GpmManager";
+import {GpmConfig} from "../model/GpmConfig";
 
 /**
  * The default implementation of the <code>Cheetoh</code> interface.
@@ -75,19 +77,27 @@ export class DefaultCheetohImpl implements Cheetoh {
                            callback:(err:CheetohError)=>void):void {
     let manager:ManifestManager = new ManifestManager();
     let error:CheetohError = null;
+    let loader:GpmManager = null;
     this.sendMessage("GPM install start");
     this.sendMessage("Destination path is: " + destinationPath);
+    manager.setGlassCatPath(destinationPath);
     manager.loadManifest(
-      destinationPath,
       (err:CheetohError)=> {
         if(err) {
           this.sendMessage("GPM install error:\n" + err, LogLevel.ERROR);
+          callback(err);
         } else {
-          this.sendMessage("GPM install complete");
+          loader = new GpmManager();
+          loader.installFromUri(
+            uri,
+            destinationPath,
+            (gpm:GpmConfig, err:CheetohError)=>{
+              this.sendMessage("GPM install complete");
+              callback(null);
+            }
+          );
         }
-        callback(err);
       }
     )
-    
   }
 };
