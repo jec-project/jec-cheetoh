@@ -11,7 +11,7 @@ class ManifestConfigUpdater {
             callback(null);
         })
             .catch((reason) => {
-            error = new CheetohError_1.CheetohError("GPM manifest update error.");
+            error = new CheetohError_1.CheetohError("GPM manifest update error:\n" + reason);
             error.stack = reason;
             callback(error);
         });

@@ -92,9 +92,7 @@ class ManifestManager {
         }
     }
     addGpm(gpmConfig) {
-    }
-    removeGpmByName(name) {
-        return true;
+        this._manifestConfig.models.push(gpmConfig);
     }
 }
 exports.ManifestManager = ManifestManager;

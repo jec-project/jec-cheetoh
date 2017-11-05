@@ -21,6 +21,7 @@ import {LogLevel} from "jec-commons";
 import {CheetohError} from "../exceptions/CheetohError";
 import {GpmManager} from "../core/GpmManager";
 import {GpmConfig} from "../model/GpmConfig";
+import * as path from "path";
 
 /**
  * The default implementation of the <code>Cheetoh</code> interface.
@@ -37,10 +38,6 @@ export class DefaultCheetohImpl implements Cheetoh {
   constructor() {
     this.initObj();
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Private properties
-  //////////////////////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -66,6 +63,20 @@ export class DefaultCheetohImpl implements Cheetoh {
     CheetohLoggerProxy.getInstance().log(message, logLevel);
   }
 
+  /**
+   * The wrapper function used to send decorated errors to the output stream.
+   * 
+   * @param {CheetohError} err the error to decorate and to send to the output
+   *                           stream.
+   */
+  private sendError(err:CheetohError):void {
+    CheetohLoggerProxy.getInstance()
+                      .log(
+                        `GPM install error:\n${err.message}\n${err.stack}`,
+                        LogLevel.ERROR
+                      );
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Public methods
   //////////////////////////////////////////////////////////////////////////////
@@ -84,20 +95,40 @@ export class DefaultCheetohImpl implements Cheetoh {
     manager.loadManifest(
       (err:CheetohError)=> {
         if(err) {
-          this.sendMessage("GPM install error:\n" + err, LogLevel.ERROR);
+          this.sendError( err);
           callback(err);
         } else {
+          this.sendMessage("GPM download start");
+          this.sendMessage("GPM URI is: " + uri);
           loader = new GpmManager();
           loader.installFromUri(
             uri,
             destinationPath,
             (gpm:GpmConfig, err:CheetohError)=>{
-              this.sendMessage("GPM install complete");
-              callback(null);
+              if(err) {
+                this.sendError(err);
+              } else {
+                this.sendMessage("GPM extraction complete");
+                this.sendMessage(
+                  "Installation path is: " +
+                  path.join(destinationPath, gpm.target)
+                );
+                manager.addGpm(gpm);
+                this.sendMessage("GPM manifest update");
+                manager.updateManifest((err:CheetohError)=>{
+                  if(err) {
+                    this.sendError(err);
+                    callback(err);
+                  } else {
+                    this.sendMessage("GPM install complete");
+                    callback(null);
+                  }
+                });
+              }
             }
           );
         }
       }
-    )
+    );
   }
 };

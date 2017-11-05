@@ -202,12 +202,13 @@ export class ManifestManager {
     }
   }
 
+  /**
+   * Adds the specified GPM config to the current GPM manifest.
+   * 
+   * @param {GpmConfig} gpmConfig the GPM configto add to the current GPM
+   *                              manifest.
+   */
   public addGpm(gpmConfig:GpmConfig):void {
-
-  }
-  
-  public removeGpmByName(name:string):boolean {
-    
-    return true;
+    this._manifestConfig.models.push(gpmConfig);
   }
 };

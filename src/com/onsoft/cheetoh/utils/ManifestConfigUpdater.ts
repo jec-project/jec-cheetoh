@@ -54,7 +54,7 @@ export class ManifestConfigUpdater {
         callback(null);
       })
       .catch((reason:any)=>{
-        error = new CheetohError("GPM manifest update error.");
+        error = new CheetohError("GPM manifest update error:\n" + reason);
         error.stack = reason;
         callback(error);
       });
