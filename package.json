@@ -2,7 +2,7 @@
   "name": "jec-cheetoh",
   "version": "0.9.0",
   "description": "JEC Cheetoh - The GlassCat Project Model (GPM) manager.",
-  "main": "dist/com/onsoft/cheetoh/jec-cheetoh-index",
+  "main": "dist/com/onsoft/jec-cheetoh-index",
   "types": "types/jec-cheetoh.d.ts",
   "scripts": {
     "test": "mocha juta/tiger/run-unit-tests"
