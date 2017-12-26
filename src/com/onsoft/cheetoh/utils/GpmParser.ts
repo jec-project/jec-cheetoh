@@ -16,6 +16,7 @@
 
 import {GpmConfig} from "../model/GpmConfig";
 import {CheetohError} from "../exceptions/CheetohError";
+import {GpmProperty} from "./GpmProperty";
 
 /**
  * The <code>GpmParser</code> class provides utilities for parsing GPM manifest
@@ -44,12 +45,12 @@ export class GpmParser {
    */
   private validate(manifest:any):void {
     let prop:string = null;
-    if(!manifest.name) prop = "name";
-    else if(!manifest.version) prop = "version";
-    else if(!manifest.target) prop = "target";
-    else if(!manifest.title) prop = "title";
-    else if(!manifest.description) prop = "description";
-    else if(!manifest.author) prop = "author";
+    if(!manifest.name) prop = GpmProperty.NAME;
+    else if(!manifest.version) GpmProperty.VERSION;
+    else if(!manifest.target) GpmProperty.TARGET;
+    else if(!manifest.title) GpmProperty.TITLE;
+    else if(!manifest.description) GpmProperty.DESCRIPTION;
+    else if(!manifest.author) prop = GpmProperty.AUTHOR;
     if(prop !== null) {
       throw new CheetohError(`Invalid GPM config: missing property '${prop}'`);
     }

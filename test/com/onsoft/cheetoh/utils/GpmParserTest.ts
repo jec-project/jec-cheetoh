@@ -17,6 +17,7 @@
 import { TestSuite, Test, BeforeAll, Async } from "jec-juta";
 import { expect, assert } from "chai";
 import { GpmParser } from "../../../../../src/com/onsoft/cheetoh/utils/GpmParser";
+import { GpmProperty } from "../../../../../src/com/onsoft/cheetoh/utils/GpmProperty";
 import { GpmConfig } from "../../../../../src/com/onsoft/cheetoh/model/GpmConfig";
 import { CheetohError } from "../../../../../src/com/onsoft/cheetoh/exceptions/CheetohError";
 
@@ -108,7 +109,7 @@ export class GpmParserTest {
   public validNameTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("name", utils.NAME);
+    ).to.have.property(GpmProperty.NAME, utils.NAME);
   }
   
   @Test({
@@ -117,7 +118,7 @@ export class GpmParserTest {
   public validTargetTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("target", utils.TARGET);
+    ).to.have.property(GpmProperty.TARGET, utils.TARGET);
   }
   
   @Test({
@@ -126,7 +127,7 @@ export class GpmParserTest {
   public validTitleTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("title", utils.TITLE);
+    ).to.have.property(GpmProperty.TITLE, utils.TITLE);
   }
   
   @Test({
@@ -135,7 +136,7 @@ export class GpmParserTest {
   public validDescriptionTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("description", utils.DESCRIPTION);
+    ).to.have.property(GpmProperty.DESCRIPTION, utils.DESCRIPTION);
   }
   
   @Test({
@@ -144,7 +145,7 @@ export class GpmParserTest {
   public validVersionTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("version", utils.VERSION);
+    ).to.have.property(GpmProperty.VERSION, utils.VERSION);
   }
   
   @Test({
@@ -153,6 +154,6 @@ export class GpmParserTest {
   public validAuthorTest():void {
     expect(
       this.parser.parse(utils.VALID_GPM)
-    ).to.have.property("author", utils.AUTHOR);
+    ).to.have.property(GpmProperty.AUTHOR, utils.AUTHOR);
   }
 }

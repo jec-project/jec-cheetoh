@@ -2,22 +2,23 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const GpmConfig_1 = require("../model/GpmConfig");
 const CheetohError_1 = require("../exceptions/CheetohError");
+const GpmProperty_1 = require("./GpmProperty");
 class GpmParser {
     constructor() { }
     validate(manifest) {
         let prop = null;
         if (!manifest.name)
-            prop = "name";
+            prop = GpmProperty_1.GpmProperty.NAME;
         else if (!manifest.version)
-            prop = "version";
+            GpmProperty_1.GpmProperty.VERSION;
         else if (!manifest.target)
-            prop = "target";
+            GpmProperty_1.GpmProperty.TARGET;
         else if (!manifest.title)
-            prop = "title";
+            GpmProperty_1.GpmProperty.TITLE;
         else if (!manifest.description)
-            prop = "description";
+            GpmProperty_1.GpmProperty.DESCRIPTION;
         else if (!manifest.author)
-            prop = "author";
+            prop = GpmProperty_1.GpmProperty.AUTHOR;
         if (prop !== null) {
             throw new CheetohError_1.CheetohError(`Invalid GPM config: missing property '${prop}'`);
         }

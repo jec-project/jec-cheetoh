@@ -27,6 +27,7 @@ export {GpmConfig} from "./cheetoh/model/GpmConfig";
 export {ManifestConfig} from "./cheetoh/model/ManifestConfig";
 //--> com/onsoft/cheetoh/utils
 export {GpmParser} from "./cheetoh/utils/GpmParser";
+export {GpmProperty} from "./cheetoh/utils/GpmProperty";
 export {ManifestConfigUpdater} from "./cheetoh/utils/ManifestConfigUpdater";
 export {TarballUtil} from "./cheetoh/utils/TarballUtil";
 //--> com/onsoft/cheetoh
