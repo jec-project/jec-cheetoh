@@ -15,6 +15,7 @@
 //   limitations under the License.
 
 import {JsonLoader, JsonLoaderError, UrlStringsEnum} from "jec-commons";
+import {DefaultJsonLoader} from "jec-commons-node";
 import {CheetohError} from "../exceptions/CheetohError";
 import {GpmConfig} from "../model/GpmConfig";
 import {GpmParser} from "../utils/GpmParser";
@@ -54,7 +55,7 @@ export class GpmManager {
     let error:CheetohError = null;
     let gpm:GpmConfig = null;
     let parser:GpmParser = null;
-    let loader:JsonLoader = new JsonLoader();
+    let loader:JsonLoader = new DefaultJsonLoader();
     loader.load(
       path.join(extractPath, "gpm/gpm.json"),
       (data:any)=> {

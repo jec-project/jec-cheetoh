@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
+const jec_commons_node_1 = require("jec-commons-node");
 const CheetohError_1 = require("../exceptions/CheetohError");
 const GpmParser_1 = require("../utils/GpmParser");
 const TarballUtil_1 = require("../utils/TarballUtil");
@@ -12,7 +13,7 @@ class GpmManager {
         let error = null;
         let gpm = null;
         let parser = null;
-        let loader = new jec_commons_1.JsonLoader();
+        let loader = new jec_commons_node_1.DefaultJsonLoader();
         loader.load(path.join(extractPath, "gpm/gpm.json"), (data) => {
             parser = new GpmParser_1.GpmParser();
             gpm = parser.parse(data.project);

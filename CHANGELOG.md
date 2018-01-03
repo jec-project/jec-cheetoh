@@ -9,6 +9,7 @@
 
 - Dependencies upgrade
 - Adding the `GpmProperty` Enum to normalize GPM manifest files properties
+- Fixing `jec-commons` module break changes
 
 <a name="jec-cheetoh-0.9.0"></a>
 ## **0.9.0** (2017-11-05)

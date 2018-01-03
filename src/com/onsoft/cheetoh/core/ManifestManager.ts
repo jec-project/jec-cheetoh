@@ -15,6 +15,7 @@
 //   limitations under the License.
 
 import {JsonLoader, JsonLoaderError} from "jec-commons";
+import {DefaultJsonLoader} from "jec-commons-node";
 import {CheetohError} from "../exceptions/CheetohError";
 import {GpmConfig} from "../model/GpmConfig";
 import {ManifestConfig} from "../model/ManifestConfig";
@@ -152,7 +153,7 @@ export class ManifestManager {
       );
       callback(error);
     } else {
-      loader = new JsonLoader();
+      loader = new DefaultJsonLoader();
       loader.load(
         this._manifestPath,
         (data:any)=> {

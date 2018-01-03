@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const jec_commons_1 = require("jec-commons");
+const jec_commons_node_1 = require("jec-commons-node");
 const CheetohError_1 = require("../exceptions/CheetohError");
 const ManifestConfig_1 = require("../model/ManifestConfig");
 const path = require("path");
@@ -58,7 +58,7 @@ class ManifestManager {
             callback(error);
         }
         else {
-            loader = new jec_commons_1.JsonLoader();
+            loader = new jec_commons_node_1.DefaultJsonLoader();
             loader.load(this._manifestPath, (data) => {
                 this.validate(data, (err) => {
                     if (err) {
