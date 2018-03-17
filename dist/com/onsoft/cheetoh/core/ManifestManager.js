@@ -23,10 +23,10 @@ class ManifestManager {
         callback(error);
     }
     parse(data, callback) {
+        const gpmModels = new Array();
+        const parser = new GpmParser_1.GpmParser();
+        const models = data.models;
         this._manifestConfig = new ManifestConfig_1.ManifestConfig();
-        let gpmModels = new Array();
-        let parser = new GpmParser_1.GpmParser();
-        let models = data.models;
         let len = models.length;
         let gpm = null;
         try {

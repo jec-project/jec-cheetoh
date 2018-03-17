@@ -86,7 +86,7 @@ export class DefaultCheetohImpl implements Cheetoh {
    */
   public installGpmFromUri(uri:string, destinationPath:string,
                            callback:(err:CheetohError)=>void):void {
-    let manager:ManifestManager = new ManifestManager();
+    const manager:ManifestManager = new ManifestManager();
     let error:CheetohError = null;
     let loader:GpmManager = null;
     this.sendMessage("GPM install start");

@@ -52,10 +52,10 @@ export class GpmManager {
    */
   private buildGpmConfig(extractPath:string,
                         callback:(gpm:GpmConfig, err:CheetohError)=>void):void {
+    const loader:JsonLoader = new DefaultJsonLoader();
     let error:CheetohError = null;
     let gpm:GpmConfig = null;
     let parser:GpmParser = null;
-    let loader:JsonLoader = new DefaultJsonLoader();
     loader.load(
       path.join(extractPath, "gpm/gpm.json"),
       (data:any)=> {
@@ -132,13 +132,13 @@ export class GpmManager {
    */
   public installFromUri(uri:string, destinationPath:string,
                         callback:(gpm:GpmConfig, err:CheetohError)=>void):void {
-    let error:CheetohError = null;
-    let gpm:GpmConfig = null;
-    let tarballUtil:TarballUtil = new TarballUtil();
-    let folder:string = uri.substring(
+    const tarballUtil:TarballUtil = new TarballUtil();
+    const folder:string = uri.substring(
       uri.lastIndexOf(UrlStringsEnum.SLASH) + 1, uri.lastIndexOf("-")
     );
-    let extractPath:string = path.join(destinationPath, folder);
+    let error:CheetohError = null;
+    let gpm:GpmConfig = null;
+    const extractPath:string = path.join(destinationPath, folder);
     tarballUtil.download(
       uri,
       destinationPath,

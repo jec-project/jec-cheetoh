@@ -20,7 +20,7 @@ class DefaultCheetohImpl {
             .log(`GPM install error:\n${err.message}\n${err.stack}`, jec_commons_1.LogLevel.ERROR);
     }
     installGpmFromUri(uri, destinationPath, callback) {
-        let manager = new ManifestManager_1.ManifestManager();
+        const manager = new ManifestManager_1.ManifestManager();
         let error = null;
         let loader = null;
         this.sendMessage("GPM install start");

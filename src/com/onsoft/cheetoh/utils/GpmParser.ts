@@ -65,7 +65,7 @@ export class GpmParser {
    * @return {GpmConfig} a new <code>GpmConfig</code> instance.
    */
   private build(manifest:any):GpmConfig {
-    let config:GpmConfig = new GpmConfig();
+    const config:GpmConfig = new GpmConfig();
     config.name = manifest.name;
     config.version = manifest.version;
     config.target = manifest.target;
@@ -87,9 +87,8 @@ export class GpmParser {
    * @return {GpmConfig} a new <code>GpmConfig</code> instance.
    */
   public parse(manifest:any):GpmConfig {
-    let config:GpmConfig = null;
     this.validate(manifest);
-    config = this.build(manifest);
+    const config:GpmConfig = this.build(manifest);
     return config;
   }
 }

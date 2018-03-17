@@ -91,10 +91,10 @@ export class ManifestManager {
    *                            is parsed.
    */
   private parse(data:any, callback:(err:CheetohError)=>void):void {
+    const gpmModels:Array<GpmConfig> = new Array<GpmConfig>();
+    const parser:GpmParser = new GpmParser();
+    const models:Array<any> = data.models;
     this._manifestConfig = new ManifestConfig();
-    let gpmModels:Array<GpmConfig> = new Array<GpmConfig>();
-    let parser:GpmParser = new GpmParser();
-    let models:Array<any> = data.models;
     let len:number = models.length;
     let gpm:GpmConfig = null;
     try {

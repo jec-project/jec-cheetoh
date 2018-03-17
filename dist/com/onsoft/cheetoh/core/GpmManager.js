@@ -10,10 +10,10 @@ const path = require("path");
 class GpmManager {
     constructor() { }
     buildGpmConfig(extractPath, callback) {
+        const loader = new jec_commons_node_1.DefaultJsonLoader();
         let error = null;
         let gpm = null;
         let parser = null;
-        let loader = new jec_commons_node_1.DefaultJsonLoader();
         loader.load(path.join(extractPath, "gpm/gpm.json"), (data) => {
             parser = new GpmParser_1.GpmParser();
             gpm = parser.parse(data.project);
@@ -45,11 +45,11 @@ class GpmManager {
         });
     }
     installFromUri(uri, destinationPath, callback) {
+        const tarballUtil = new TarballUtil_1.TarballUtil();
+        const folder = uri.substring(uri.lastIndexOf(jec_commons_1.UrlStringsEnum.SLASH) + 1, uri.lastIndexOf("-"));
         let error = null;
         let gpm = null;
-        let tarballUtil = new TarballUtil_1.TarballUtil();
-        let folder = uri.substring(uri.lastIndexOf(jec_commons_1.UrlStringsEnum.SLASH) + 1, uri.lastIndexOf("-"));
-        let extractPath = path.join(destinationPath, folder);
+        const extractPath = path.join(destinationPath, folder);
         tarballUtil.download(uri, destinationPath, (err) => {
             if (err) {
                 error = new CheetohError_1.CheetohError("GPM download error:\n" + err);

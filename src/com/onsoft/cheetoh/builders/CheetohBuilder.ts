@@ -41,7 +41,7 @@ export class CheetohBuilder {
    * @return {Cheetoh} a new <code>Cheetoh</code> instance.
    */
   public build():Cheetoh {
-    let cheetoh:Cheetoh = new DefaultCheetohImpl();
+    const cheetoh:Cheetoh = new DefaultCheetohImpl();
     return cheetoh;
   }
 };

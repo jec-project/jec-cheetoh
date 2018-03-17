@@ -24,7 +24,7 @@ class GpmParser {
         }
     }
     build(manifest) {
-        let config = new GpmConfig_1.GpmConfig();
+        const config = new GpmConfig_1.GpmConfig();
         config.name = manifest.name;
         config.version = manifest.version;
         config.target = manifest.target;
@@ -34,9 +34,8 @@ class GpmParser {
         return config;
     }
     parse(manifest) {
-        let config = null;
         this.validate(manifest);
-        config = this.build(manifest);
+        const config = this.build(manifest);
         return config;
     }
 }
