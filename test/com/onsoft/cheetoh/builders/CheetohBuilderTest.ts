@@ -28,7 +28,7 @@ export class CheetohBuilderTest {
     description: "should return a new DefaultCheetohImpl object"
   })
   public buildTest():void {
-    let builder = new CheetohBuilder();
+    const builder = new CheetohBuilder();
     expect(builder.build()).to.be.an.instanceOf(DefaultCheetohImpl);
   }
 }

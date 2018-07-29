@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import { TestSuite, Test, BeforeAll, Async } from "jec-juta";
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import { GpmParser } from "../../../../../src/com/onsoft/cheetoh/utils/GpmParser";
 import { GpmProperty } from "../../../../../src/com/onsoft/cheetoh/utils/GpmProperty";
 import { GpmConfig } from "../../../../../src/com/onsoft/cheetoh/model/GpmConfig";
@@ -40,7 +40,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'name' property of the congiguration file is missing"
   })
   public invalidNameTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_NAME);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);
@@ -50,7 +50,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'target' property of the congiguration file is missing"
   })
   public invalidTargetTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_TARGET);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);
@@ -60,7 +60,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'title' property of the congiguration file is missing"
   })
   public invalidTitleTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_TITLE);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);
@@ -70,7 +70,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'description' property of the congiguration file is missing"
   })
   public invalidDescriptionTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_DESCRIPTION);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);
@@ -80,7 +80,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'version' property of the congiguration file is missing"
   })
   public invalidVersionTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_VERSION);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);
@@ -90,7 +90,7 @@ export class GpmParserTest {
     description: "should throw an error when the 'author' property of the congiguration file is missing"
   })
   public invalidAuthorTest():void {
-    let parseInvalidGpm:Function = function():void {
+    const parseInvalidGpm:Function = function():void {
       this.parser.parse(utils.INVALID_AUTHOR);
     };
     expect(parseInvalidGpm.bind(this)).to.throw(CheetohError);

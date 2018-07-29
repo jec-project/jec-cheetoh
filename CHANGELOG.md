@@ -1,5 +1,24 @@
 # JEC Cheetoh Project: Update Release Notes
 
+<a name="jec-cheetoh-0.9.3"></a>
+## **0.9.3** (2018-08-29)
+
+### Bug Fixes
+
+### Features
+
+- Updating all dependencies
+- Test cases improvements
+
+<a name="jec-cheetoh-0.9.2"></a>
+## **0.9.2** (2018-08-22)
+
+### Bug Fixes
+
+### Features
+
+- Dependencies upgrade
+
 <a name="jec-cheetoh-0.9.1"></a>
 ## **0.9.1** (2017-12-26)
 

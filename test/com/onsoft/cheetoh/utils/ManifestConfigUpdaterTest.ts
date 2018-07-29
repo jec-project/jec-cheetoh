@@ -14,9 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import { TestSuite, Test, BeforeAll } from "jec-juta";
-import { expect } from "chai";
-import { ManifestConfigUpdater } from "../../../../../src/com/onsoft/cheetoh/utils/ManifestConfigUpdater";
+import { TestSuite } from "jec-juta";
 
 @TestSuite({
   description: "Test the ManifestConfigUpdater class properties",

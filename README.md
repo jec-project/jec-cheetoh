@@ -1,5 +1,10 @@
 # JEC Cheetoh Project
 
+[![JEC version](https://img.shields.io/badge/JEC-1.0-%23ba00ff.svg)](http://jecproject.org)
+[![GlassCat version](https://img.shields.io/badge/GlassCat-1.0-%230a50ff.svg)](http://jecproject.org)
+[![npm version](https://badge.fury.io/js/jec-cheetoh.svg)](https://www.npmjs.com/package/jec-cheetoh)
+[![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 The Cheetoh Project provides developers the default GlassCat Project Model (GPM) manager for GlassCat Aplication Servers.
 
 [![][jec-logo]][jec-url]

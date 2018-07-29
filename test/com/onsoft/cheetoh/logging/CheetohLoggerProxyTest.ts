@@ -28,7 +28,7 @@ export class CheetohLoggerProxyTest {
     description: "should throw a singleton error when calling the constructor function"
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new CheetohLoggerProxy();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -38,7 +38,7 @@ export class CheetohLoggerProxyTest {
     description: "should return a CheetohLoggerProxy instance"
   })
   public getInstanceTest():void {
-    let logger:LoggerProxy = CheetohLoggerProxy.getInstance();
+    const logger:LoggerProxy = CheetohLoggerProxy.getInstance();
     expect(logger).to.be.an.instanceOf(CheetohLoggerProxy);
   }
   
@@ -46,8 +46,8 @@ export class CheetohLoggerProxyTest {
     description: "should return a singleton reference"
   })
   public singletonTest():void {
-    let logger1:LoggerProxy = CheetohLoggerProxy.getInstance();
-    let logger2:LoggerProxy = CheetohLoggerProxy.getInstance();
+    const logger1:LoggerProxy = CheetohLoggerProxy.getInstance();
+    const logger2:LoggerProxy = CheetohLoggerProxy.getInstance();
     expect(logger1).to.equal(logger2);
   }
 }

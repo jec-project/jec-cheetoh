@@ -27,7 +27,7 @@ export class CheetohErrorTest {
     description: "should extend the Error class"
   })
   public errorInstanceTest():void {
-    let error = new CheetohError(null);
+    const error = new CheetohError(null);
     expect(error).to.be.an.instanceOf(Error);
   }
   
@@ -35,8 +35,8 @@ export class CheetohErrorTest {
     description: "should return the same message as passed to the constructor function"
   })
   public messageTest():void {
-    let message:string = "foo bar";
-    let error = new CheetohError(message);
+    const message:string = "foo bar";
+    const error = new CheetohError(message);
     expect(error.message).to.equal(message);
   }
 }
