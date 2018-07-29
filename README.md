@@ -48,7 +48,7 @@ The documentation generator is [TypeDoc](http://typedoc.org/)
 
 ## Update Release Notes
 
-**Current stable release:** [0.9.1](CHANGELOG.md#jec-cheetoh-0.9.1)
+**Current stable release:** [0.9.3](CHANGELOG.md#jec-cheetoh-0.9.3)
  
 For a complete listing of release notes for all JEC Cheetoh update releases, see the [CHANGELOG](CHANGELOG.md) file. 
 
